@@ -1,0 +1,36 @@
+import { DataTypes, Model } from "sequelize";
+import sequelize from "../config/config.js";
+
+export class BotUser extends Model {
+  public id!: number;
+  public full_name!: string;
+  public phone_number?: string;
+  public chat_id!: bigint;
+}
+
+BotUser.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    full_name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    phone_number: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    chat_id: {
+      type: DataTypes.BIGINT, 
+      allowNull: true,
+    }
+  },
+  {
+    tableName: "Bot_User",
+    timestamps: true,
+    sequelize,
+  },
+);
