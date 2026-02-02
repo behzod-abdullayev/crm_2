@@ -3,6 +3,7 @@ import TelegramBot from "node-telegram-bot-api";
 import { Bot } from "../model/bot.model.js";
 import { BotUser } from "../model/botUser.model.js";
 import "dotenv/config";
+import { Op } from "sequelize";
 
 await Bot.sync({ force: false });
 await BotUser.sync({ force: false });
@@ -71,7 +72,29 @@ export const getMessageFromToday = async (
   next: NextFunction
 ): Promise<Response | void> => {
   try {
-    return res.status(200).json({ success: true });
+    const currenDate = new Date()
+    currenDate.setUTCHours(0, 0, 0, 0)
+
+    const messages = await Bot.findAll({where: {createdAt: {[Op.gte]: currenDate}}})
+    res.status(200).json(messages)
+  } catch (error: any) {
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+export const getLastTenDays = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<Response | void> => {
+  try {
+    const currenDate = new Date()
+    currenDate.setDate(currenDate.getDate() - 10)
+
+    const messages = await Bot.findAll({where: {createdAt: {[Op.gte]: currenDate}}})
+    res.status(200).json(messages)
   } catch (error: any) {
     return res.status(500).json({
       message: error.message,
