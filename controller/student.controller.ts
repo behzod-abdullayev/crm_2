@@ -1,7 +1,8 @@
-import type { NextFunction, Request, Response } from "express";
+import type { NextFunction, request, Request, Response } from "express";
 import { Student } from "../model/student.model.js";
 import type { CreateStudentDto, UpdateStudentDto } from "../dto/student.dto.js";
 import { Op } from "sequelize";
+import sequelize from "../config/config.js";
 
 Student.sync({ force: false });
 
@@ -164,6 +165,27 @@ export const leftStudent = async (req: Request, res: Response, next: NextFunctio
     res.status(200).json({
       message: "left student",
     });
+  } catch (error: any) {
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+export const statistics = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
+  try {
+    const stat = await Student.findAll({
+        attributes:[
+            [sequelize.literal(`DATE_TRUNC ('month', "joinedAt")`), "month"],
+        [sequelize.fn("COUNT", sequelize.col("id")),"totalJOined"],
+        [sequelize.literal(`SUM(case when "leftAt" is not null 1 else 0 end)`),"totalLeft"]
+        ],
+        group: [],
+        order: [],
+        raw: true
+    })
+
+    res.status(200).json(stat)
   } catch (error: any) {
     return res.status(500).json({
       message: error.message,
