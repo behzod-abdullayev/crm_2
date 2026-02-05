@@ -1,12 +1,14 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/config.js";
 export class Student extends Model {
-  full_name!: String;
+  full_name!: string;
   phone_number!: string;
   profession!: string;
   parent_name!: string;
   parent_number!: string;
   image_url!: string;
+  joinedAt! : Date;
+  leftAt?: Date
 }
 
 Student.init(
@@ -24,6 +26,10 @@ Student.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    profession: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     parent_name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -36,6 +42,16 @@ Student.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    joinedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    leftAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: null
+    },
+    
   },
   {
     tableName: "students",

@@ -66,20 +66,10 @@ export const getMessageFromToday = async (req, res, next) => {
 };
 export const getLastTenDays = async (req, res, next) => {
     try {
-        const tenDaysAgo = new Date(); // Hozirgi vaqt
-        tenDaysAgo.setDate(tenDaysAgo.getDate() - 10); // 10 kun orqaga
-        // MUHIM QISM: O'sha kunning boshlanish vaqtiga sozlaymiz
-        tenDaysAgo.setHours(0, 0, 0, 0);
-        console.log("Qidirilayotgan sana:", tenDaysAgo); // Terminalda tekshirib ko'ring
-        const messages = await Bot.findAll({
-            where: {
-                createdAt: {
-                    [Op.gte]: tenDaysAgo // tenDaysAgo dan katta yoki teng (ya'ni yangiroq) xabarlar
-                }
-            },
-            order: [['createdAt', 'DESC']] // Oxirgi xabarlar tepada turishi uchun
-        });
-        return res.status(200).json(messages);
+        const currenDate = new Date();
+        currenDate.setDate(currenDate.getDate() - 10);
+        const messages = await Bot.findAll({ where: { createdAt: { [Op.gte]: currenDate } } });
+        res.status(200).json(messages);
     }
     catch (error) {
         return res.status(500).json({

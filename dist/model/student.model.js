@@ -7,6 +7,8 @@ export class Student extends Model {
     parent_name;
     parent_number;
     image_url;
+    joinedAt;
+    leftAt;
 }
 Student.init({
     id: {
@@ -22,6 +24,10 @@ Student.init({
         type: DataTypes.STRING,
         allowNull: false,
     },
+    profession: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
     parent_name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -33,6 +39,15 @@ Student.init({
     image_url: {
         type: DataTypes.STRING,
         allowNull: false,
+    },
+    joinedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+    },
+    leftAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: null
     },
 }, {
     tableName: "students",

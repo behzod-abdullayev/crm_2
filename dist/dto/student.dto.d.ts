@@ -1,5 +1,5 @@
 export interface CreateStudentDto {
-    full_name: String;
+    full_name: string;
     phone_number: string;
     profession: string;
     parent_name: string;
@@ -7,27 +7,13 @@ export interface CreateStudentDto {
     image_url: string;
 }
 export interface UpdateStudentDto {
-    full_name?: String;
+    full_name?: string;
     phone_number?: string;
     profession?: string;
     parent_name?: string;
     parent_number?: string;
     image_url?: string;
-}
-export interface DeleteStudentDto {
-    full_name: String;
-    phone_number: string;
-    profession: string;
-    parent_name: string;
-    parent_number: string;
-    image_url: string;
-}
-export interface getOneStudentDto {
-    full_name: String;
-    phone_number: string;
-    profession: string;
-    parent_name: string;
-    parent_number: string;
-    image_url: string;
+    joinedAt?: Date;
+    leftAt?: Date;
 }
 //# sourceMappingURL=student.dto.d.ts.map
